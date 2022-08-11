@@ -1,0 +1,4 @@
+bar 18
+foobar 15
+foo 21
+** total: 54
