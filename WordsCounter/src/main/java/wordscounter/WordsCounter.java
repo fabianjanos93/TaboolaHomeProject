@@ -15,24 +15,28 @@ public class WordsCounter {
     }
 
     private void load(String input1, String input2, String input3) {
-        CounterThread counterThread1 = new CounterThread(input1, this);
-        CounterThread counterThread2 = new CounterThread(input2, this);
-        CounterThread counterThread3 = new CounterThread(input3, this);
+        Thread thread1 = startCounterThread(input1);
+        Thread thread2 = startCounterThread(input2);
+        Thread thread3 = startCounterThread(input3);
 
-        Thread thread1 = new Thread(counterThread1);
-        thread1.start();
-        Thread thread2 = new Thread(counterThread2);
-        thread2.start();
-        Thread thread3 = new Thread(counterThread3);
-        thread3.start();
+        waitForThreads(thread1, thread2, thread3);
+    }
 
+    private void waitForThreads(Thread... threads) {
         try {
-            thread1.join();
-            thread2.join();
-            thread3.join();
+            for (Thread thread : threads) {
+                thread.join();
+            }
         } catch (InterruptedException e) {
             System.err.println("Thread is interrupted");
         }
+    }
+
+    private Thread startCounterThread(String input1) {
+        CounterThread counterThread1 = new CounterThread(input1, this);
+        Thread thread1 = new Thread(counterThread1);
+        thread1.start();
+        return thread1;
     }
 
     public synchronized void increaseValue(String word) {
