@@ -8,9 +8,7 @@ public class WordsCounter {
 
     public static void main(String[] args) {
         WordsCounter wc = new WordsCounter();
-        // load text files in parallel
         wc.load("file1.txt", "file2.txt", "file3.txt");
-        // display words statistics
         wc.displayStatus();
     }
 
